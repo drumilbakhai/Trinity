@@ -1,0 +1,51 @@
+from stacks import Stacks
+
+def in2post(expresion):
+    opStack = Stacks()
+    out = []
+    prec = {}
+    prec ["*"] = 3
+    prec["/"] = 3
+    prec["+"] = 2
+    prec["-"] = 2
+    prec ["("] = 1
+
+    token_list = expresion.split()
+    print token_list
+    #Iterating Over the List
+
+    for each_token in token_list:
+        #Checking Conditions
+        #print each_token
+
+        if each_token in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" or each_token in "0123456789":
+            out.append(each_token)
+            print "Character ", each_token
+        # Pushing Into Stack
+        elif each_token == "(":
+            opStack.push(each_token)
+            print "Opening Braces", each_token
+        elif each_token == ")":
+            tos = opStack.pop()
+            print "Closing Braces" ,each_token
+            while tos != "(":
+                print "Top of Stack is " ,opStack.peek()
+                out.append(tos)
+                tos = opStack.pop()
+
+        else:
+            while (not opStack.isEmpty()) and (prec[opStack.peek()] >= prec[each_token]):
+                print "operand ", each_token
+                out.append(opStack.pop())
+            opStack.push(each_token)
+
+    while not opStack.isEmpty():
+        out.append(opStack.pop)
+
+    return "".join(out)
+
+
+stringer = raw_input("Enter Infix Expression")
+print "Equivalent PostFix Expression is ", in2post(stringer)
+
+
